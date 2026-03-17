@@ -1,0 +1,61 @@
+name: Deploy to ECS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_REGION: us-east-1
+      ECR_REPOSITORY: stargazing
+      ECS_CLUSTER: weather-pipeline-cluster
+      ECS_TASK_DEFINITION: task-definition.json
+      CONTAINER_NAME: weather-container
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build and push Docker image
+        id: build-image
+        run: |
+          IMAGE_TAG=${{ github.sha }}
+          IMAGE_URI=${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:$IMAGE_TAG
+
+          docker build -t $IMAGE_URI .
+          docker push $IMAGE_URI
+          
+          # 同步最新镜像为 latest
+          docker tag $IMAGE_URI ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
+          docker push ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
+
+          echo "image=$IMAGE_URI" >> $GITHUB_OUTPUT
+
+      - name: Render task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ env.ECS_TASK_DEFINITION }}
+          container-name: ${{ env.CONTAINER_NAME }}
+          image: ${{ steps.build-image.outputs.image }}
+
+      - name: Register ECS task definition
+        run: |
+          aws ecs register-task-definition \
+            --cli-input-json file://${{ steps.task-def.outputs.task-definition }}

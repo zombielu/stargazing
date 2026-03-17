@@ -1,0 +1,15 @@
+.git
+.gitignore
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv
+venv
+node_modules
+*.log
+data
+notebooks
+tests
+aws-mfa-access.sh

@@ -1,0 +1,79 @@
+# ---------------------------
+# Python bytecode
+# ---------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+
+# ---------------------------
+# Virtual environments
+# ---------------------------
+env/
+venv/
+ENV/
+
+# ---------------------------
+# Build / Packaging
+# ---------------------------
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ---------------------------
+# Docker
+# ---------------------------
+docker-compose.override.yml
+docker-compose.override.yaml
+
+# ---------------------------
+# Logs and temp files
+# ---------------------------
+*.log
+*.tmp
+*.bak
+*.swp
+
+# ---------------------------
+# IDE / Editor
+# ---------------------------
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# ---------------------------
+# Jupyter Notebook
+# ---------------------------
+.ipynb_checkpoints
+
+# ---------------------------
+# AWS / Secrets
+# ---------------------------
+*.pem
+*.key
+*.env
+aws_credentials.json
+aws-mfa-access.sh
+
+# ---------------------------
+# Data files (S3 output / raw / intermediate)
+# ---------------------------
+data/
+output/
+results/
+*.csv
+.serverless/
+
+
+# ---------------------------
+# Mac / Linux system files
+# ---------------------------
+.DS_Store
+*.pid
+*.sock
+
+# ===========================
+# Node.js
+# ===========================
+node_modules/

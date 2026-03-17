@@ -1,0 +1,24 @@
+service: weather-service
+provider:
+  name: aws
+  runtime: python3.11
+  region: us-east-1
+  iam:
+    role: arn:aws:iam::849412560805:role/stargazing-lambda-role
+
+functions:
+  fetchScore:
+    handler: lambda/fetch_score_handler.lambda_handler
+    events:
+      - httpApi:
+          path: /astronomy-score
+          method: get
+
+plugins:
+  - serverless-offline
+  - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    dockerizePip: true
+    usePoetry: false
