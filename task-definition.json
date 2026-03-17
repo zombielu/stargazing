@@ -47,6 +47,5 @@
         "cpuArchitecture": "ARM64",
         "operatingSystemFamily": "LINUX"
     },
-    "enableFaultInjection": false,
-    "tags": []
+    "enableFaultInjection": false
 }
