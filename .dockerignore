@@ -1,15 +1,37 @@
+# Git
 .git
 .gitignore
-__pycache__
+
+# Python
+__pycache__/
 *.pyc
 *.pyo
 *.pyd
-.env
-.venv
-venv
-node_modules
 *.log
-data
-notebooks
-tests
+
+# Virtual env
+venv/
+.venv/
+
+# Environment
+.env
 aws-mfa-access.sh
+
+# OS
+.DS_Store
+
+# Data (非常重要)
+data/
+notebooks/
+tests/
+*.csv
+*.parquet
+*.json
+
+# Airflow / logs
+logs/
+tmp/
+
+# Node (如果有前端)
+node_modules/
+
